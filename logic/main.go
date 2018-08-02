@@ -40,6 +40,7 @@ func main() {
 	if err := InitKafka(Conf.KafkaAddrs); err != nil {
 		panic(err)
 	}
+	go SyncRoomCount()
 	// block until a signal is received.
 	InitSignal()
 }

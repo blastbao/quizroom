@@ -46,6 +46,8 @@ type Config struct {
 	HTTPAddrs        []string      `goconf:"base:http.addrs:,"`
 	HTTPReadTimeout  time.Duration `goconf:"base:http.read.timeout:time"`
 	HTTPWriteTimeout time.Duration `goconf:"base:http.write.timeout:time"`
+
+	ROOMCOUNTERTIMER time.Duration `goconf:"base:room.counter.timer:time"`
 	// router RPC
 	RouterRPCAddrs map[string]string `-`
 	// kafka
@@ -89,6 +91,7 @@ func NewConfig() *Config {
 		HTTPAddrs:                  []string{"7172"},
 		RouterRPCAddrs:             make(map[string]string),
 		BroadcastBulletScreenColor: make(map[int]string),
+		ROOMCOUNTERTIMER:           5 * time.Second,
 	}
 }
 

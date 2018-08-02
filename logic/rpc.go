@@ -67,18 +67,22 @@ func (r *RPC) Connect(arg *proto.ConnArg, reply *proto.ConnReply) (err error) {
 	var (
 		uid      int64
 		seq      int32
-		userInfo *proto.RedisUserInfo
+		//userInfo *proto.RedisUserInfo
 	)
-	userInfo, uid, reply.RoomId, err = r.auther.Auth(arg.Token, arg.Guid, arg.RoomId)
+	_, uid, reply.RoomId, err = r.auther.Auth(arg.Token, arg.Guid, arg.RoomId)
 	if err != nil {
 		return
 	}
 	if seq, err = connect(uid, arg.Server, reply.RoomId); err == nil {
 		reply.Key = encode(uid, seq)
 	}
-	if err = UserConnectPushRoom(userInfo, reply.RoomId); err != nil {
+	/*if ChannelId, err = getChannelIdByRoomId(reply.RoomId); err != nil{
+		return 
+	}*/
+
+	/*if err = UserConnectPushRoom(userInfo, reply.RoomId); err != nil {
 		log.Error("push room when user connect broadcast is error %v, uid:%v, guid:%v, nickname:%v", err, uid, userInfo.Guid, userInfo.Nickname)
-	}
+	}*/
 	return
 }
 
@@ -100,11 +104,11 @@ func (r *RPC) SendMsgBroadCast(arg *proto.SendSmsBroadcastArg, reply *proto.Send
 	}
 	msgBody.Timestamp = GetMicroTime()
 	msgBody.RoomId = roomId
-	if userId, _, err = decode(key); err != nil{
+	if userId, _, err = decode(key); err != nil {
 		return
 	}
 	fontColor := userId % 5
-	if colorInt, err = strconv.Atoi(strconv.FormatInt(fontColor, 10)); err != nil{
+	if colorInt, err = strconv.Atoi(strconv.FormatInt(fontColor, 10)); err != nil {
 		return
 	}
 	msgBody.FontColor = Conf.BroadcastBulletScreenColor[colorInt]
@@ -117,7 +121,7 @@ func (r *RPC) SendMsgBroadCast(arg *proto.SendSmsBroadcastArg, reply *proto.Send
 	}
 	sendTime := time.Now().Unix()
 	//bulletscreen write to timeline comment
-	if err = BroadcastBulletScreenWriteToTimeLine(roomId, &msgBody, sendTime); err != nil{
+	if err = BroadcastBulletScreenWriteToTimeLine(roomId, &msgBody, sendTime); err != nil {
 		log.Error("BroadcastBulletScreenWriteToTimeLine error %v rid: %v, msgbody: %+v", err, roomId, msgBody)
 	}
 	reply.Code = define.STATUS_SENDBROADCAST_SUCCESS

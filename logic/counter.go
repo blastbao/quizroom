@@ -3,6 +3,10 @@ package main
 import (
 	"chatroom/libs/net/xrpc"
 	"time"
+	"chatroom/libs/proto"
+	"github.com/name5566/leaf/log"
+	"encoding/json"
+	"chatroom/libs/define"
 )
 
 const (
@@ -55,5 +59,46 @@ func SyncCount() {
 	for {
 		MergeCount()
 		time.Sleep(syncCountDelay)
+	}
+}
+
+func SyncRoomCount() {
+	timer := time.NewTicker(Conf.ROOMCOUNTERTIMER)
+
+	select {
+	case <-timer.C:
+		BroadcastRoomCount()
+	}
+
+}
+
+/**
+	广播房间人数
+ */
+func BroadcastRoomCount() {
+	if len(RoomCountMap) == 0 {
+		return
+	}
+	for roomId, counter := range RoomCountMap {
+		channelId, err := getChannelIdByRoomId(roomId)
+		if err != nil {
+			log.Error("BroadcastRoomCount get channel_id by room_id fail room_id : %v, counter: %v  error: %v", roomId, counter, err)
+			continue
+		}
+		msg := proto.BroadcastRoomCounter{}
+		msg.RoomId = roomId
+		msg.Counter = counter
+		msg.ChannelId = channelId
+
+		vByte, err := json.Marshal(msg)
+		if err != nil {
+			log.Error("BroadcastRoomCount json Marshal error room_id : %v, channelId %v,counter: %v  error: %v", roomId, channelId, counter, err)
+			continue
+		}
+		if err := broadcastRoomKafka(roomId, vByte, false, define.OP_BRAOADCAST_ROOM_COUNTER, 1, define.PROTO_VER); err != nil {
+			log.Error("BroadcastRoomCount send fail; room_id : %v,channelId %v, counter: %v  error: %v", roomId, channelId, counter, err)
+			continue
+		}
+		log.Debug("BroadcastRoomCount send success; room_id : %v, channel_id: %v,  counter: %v ", roomId, channelId, counter)
 	}
 }
