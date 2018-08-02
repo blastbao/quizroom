@@ -2,10 +2,10 @@ package main
 
 import (
 	"encoding/json"
-	"chatroom/libs/define"
-	inet "chatroom/libs/net"
-	"chatroom/libs/net/xrpc"
-	"chatroom/libs/proto"
+	"quizroom/libs/define"
+	inet "quizroom/libs/net"
+	"quizroom/libs/net/xrpc"
+	"quizroom/libs/proto"
 
 	log "github.com/thinkboy/log4go"
 	"strings"

@@ -2,7 +2,7 @@ package xrpc
 
 import (
 	"errors"
-	"chatroom/libs/proto"
+	"quizroom/libs/proto"
 	"net"
 	"net/rpc"
 	"time"

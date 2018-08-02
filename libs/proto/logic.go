@@ -69,3 +69,9 @@ type BroadcastUserEvent struct {
 	Type    int             `json:"type"`
 	Content json.RawMessage `json:"content"`
 }
+
+type BroadcastRoomCounter struct {
+	RoomId    int32  `json:"room_id"`
+	ChannelId string `json:"channel_id"`
+	Counter   int32  `json:"counter"`
+}

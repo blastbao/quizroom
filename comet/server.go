@@ -1,7 +1,7 @@
 package main
 
 import (
-	"chatroom/libs/hash/cityhash"
+	"quizroom/libs/hash/cityhash"
 	"time"
 
 	log "github.com/thinkboy/log4go"

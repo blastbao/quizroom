@@ -1,10 +1,10 @@
 package main
 
 import (
-	"chatroom/libs/bytes"
-	"chatroom/libs/define"
-	"chatroom/libs/proto"
-	itime "chatroom/libs/time"
+	"quizroom/libs/bytes"
+	"quizroom/libs/define"
+	"quizroom/libs/proto"
+	itime "quizroom/libs/time"
 	"sync"
 	"time"
 

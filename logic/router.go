@@ -1,10 +1,10 @@
 package main
 
 import (
-	"chatroom/libs/hash/ketama"
-	inet "chatroom/libs/net"
-	"chatroom/libs/net/xrpc"
-	"chatroom/libs/proto"
+	"quizroom/libs/hash/ketama"
+	inet "quizroom/libs/net"
+	"quizroom/libs/net/xrpc"
+	"quizroom/libs/proto"
 	"strconv"
 
 	log "github.com/thinkboy/log4go"

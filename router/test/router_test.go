@@ -1,7 +1,7 @@
 package test
 
 import (
-	proto "chatroom/libs/proto"
+	proto "quizroom/libs/proto"
 	rpc "net/rpc"
 	"sort"
 	"testing"

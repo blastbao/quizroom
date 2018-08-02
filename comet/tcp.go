@@ -1,11 +1,11 @@
 package main
 
 import (
-	"chatroom/libs/bufio"
-	"chatroom/libs/bytes"
-	"chatroom/libs/define"
-	"chatroom/libs/proto"
-	itime "chatroom/libs/time"
+	"quizroom/libs/bufio"
+	"quizroom/libs/bytes"
+	"quizroom/libs/define"
+	"quizroom/libs/proto"
+	itime "quizroom/libs/time"
 	"io"
 	"net"
 	"time"
@@ -287,7 +287,7 @@ failed:
 	return
 }
 
-// auth for chatroom handshake with client, use rsa & aes.
+// auth for quizroom handshake with client, use rsa & aes.
 func (server *Server) authTCP(rr *bufio.Reader, wr *bufio.Writer, p *proto.Proto) (key string, rid int32, heartbeat time.Duration, err error) {
 	if err = p.ReadTCP(rr); err != nil {
 		return

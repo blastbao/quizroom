@@ -1,9 +1,9 @@
 package main
 
 import (
-	inet "chatroom/libs/net"
-	"chatroom/libs/net/xrpc"
-	"chatroom/libs/proto"
+	inet "quizroom/libs/net"
+	"quizroom/libs/net/xrpc"
+	"quizroom/libs/proto"
 	"time"
 
 	log "github.com/thinkboy/log4go"

@@ -2,9 +2,9 @@ package main
 
 import (
 	"crypto/tls"
-	"chatroom/libs/define"
-	"chatroom/libs/proto"
-	itime "chatroom/libs/time"
+	"quizroom/libs/define"
+	"quizroom/libs/proto"
+	itime "quizroom/libs/time"
 	"math/rand"
 	"net"
 	"net/http"

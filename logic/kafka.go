@@ -2,9 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"chatroom/libs/define"
-	"chatroom/libs/encoding/binary"
-	"chatroom/libs/proto"
+	"quizroom/libs/define"
+	"quizroom/libs/encoding/binary"
+	"quizroom/libs/proto"
 
 	"github.com/Shopify/sarama"
 	log "github.com/thinkboy/log4go"

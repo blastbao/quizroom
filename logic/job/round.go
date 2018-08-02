@@ -1,7 +1,7 @@
 package main
 
 import (
-	"chatroom/libs/time"
+	"quizroom/libs/time"
 )
 
 type RoundOptions struct {

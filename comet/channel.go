@@ -1,8 +1,8 @@
 package main
 
 import (
-	"chatroom/libs/bufio"
-	"chatroom/libs/proto"
+	"quizroom/libs/bufio"
+	"quizroom/libs/proto"
 )
 
 // Channel used by message pusher send msg to write goroutine.

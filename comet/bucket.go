@@ -1,8 +1,8 @@
 package main
 
 import (
-	"chatroom/libs/define"
-	"chatroom/libs/proto"
+	"quizroom/libs/define"
+	"quizroom/libs/proto"
 	"sync"
 	"sync/atomic"
 )

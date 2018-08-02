@@ -1,8 +1,8 @@
 package main
 
 import (
-	"chatroom/libs/bytes"
-	"chatroom/libs/time"
+	"quizroom/libs/bytes"
+	"quizroom/libs/time"
 )
 
 type RoundOptions struct {

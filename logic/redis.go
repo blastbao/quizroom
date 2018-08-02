@@ -6,7 +6,7 @@ import (
 	"time"
 	"strconv"
 	log "github.com/thinkboy/log4go"
-	"chatroom/libs/proto"
+	"quizroom/libs/proto"
 )
 
 var pool *redis.Pool

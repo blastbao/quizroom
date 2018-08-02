@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	inet "chatroom/libs/net"
+	inet "quizroom/libs/net"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -10,7 +10,7 @@ import (
 	"time"
 
 	log "github.com/thinkboy/log4go"
-	"chatroom/libs/define"
+	"quizroom/libs/define"
 )
 
 func InitHTTP() (err error) {

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"chatroom/libs/define"
+	"quizroom/libs/define"
 	"sync"
 	"time"
 )

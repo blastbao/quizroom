@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"chatroom/libs/perf"
+	"quizroom/libs/perf"
 	"runtime"
 
 	log "github.com/thinkboy/log4go"

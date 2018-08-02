@@ -1,8 +1,8 @@
 package main
 
 import (
-	inet "chatroom/libs/net"
-	"chatroom/libs/proto"
+	inet "quizroom/libs/net"
+	"quizroom/libs/proto"
 	"net"
 	"net/rpc"
 
@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"time"
 	"strconv"
-	"chatroom/libs/define"
+	"quizroom/libs/define"
 	"errors"
 )
 

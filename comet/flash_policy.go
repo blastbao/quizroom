@@ -1,9 +1,9 @@
 package main
 
 import (
-	"chatroom/libs/bufio"
-	"chatroom/libs/bytes"
-	itime "chatroom/libs/time"
+	"quizroom/libs/bufio"
+	"quizroom/libs/bytes"
+	itime "quizroom/libs/time"
 	"net"
 
 	log "github.com/thinkboy/log4go"

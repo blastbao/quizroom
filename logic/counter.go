@@ -1,12 +1,12 @@
 package main
 
 import (
-	"chatroom/libs/net/xrpc"
+	"quizroom/libs/net/xrpc"
 	"time"
-	"chatroom/libs/proto"
+	"quizroom/libs/proto"
 	log "github.com/thinkboy/log4go"
 	"encoding/json"
-	"chatroom/libs/define"
+	"quizroom/libs/define"
 )
 
 const (
@@ -101,6 +101,5 @@ func BroadcastRoomCount() {
 			log.Error("BroadcastRoomCount send fail; room_id : %v,channelId %v, counter: %v  error: %v", roomId, channelId, counter, err)
 			continue
 		}
-		log.Debug("BroadcastRoomCount send success; room_id : %v, channel_id: %v,  counter: %v ", roomId, channelId, counter)
 	}
 }

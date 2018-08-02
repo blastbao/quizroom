@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"chatroom/libs/bufio"
-	"chatroom/libs/bytes"
-	"chatroom/libs/define"
-	"chatroom/libs/encoding/binary"
+	"quizroom/libs/bufio"
+	"quizroom/libs/bytes"
+	"quizroom/libs/define"
+	"quizroom/libs/encoding/binary"
 
 	"github.com/gorilla/websocket"
 )
@@ -47,7 +47,7 @@ var (
 	ProtoFinish = &Proto{Operation: define.OP_PROTO_FINISH}
 )
 
-// Proto is a request&response written before every chatroom connect.  It is used internally
+// Proto is a request&response written before every quizroom connect.  It is used internally
 // but documented here as an aid to debugging, such as when analyzing
 // network traffic.
 // tcp:

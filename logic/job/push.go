@@ -2,8 +2,8 @@ package main
 
 import (
 	"encoding/json"
-	"chatroom/libs/define"
-	"chatroom/libs/proto"
+	"quizroom/libs/define"
+	"quizroom/libs/proto"
 	"math/rand"
 
 	log "github.com/thinkboy/log4go"

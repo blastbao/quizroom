@@ -38,7 +38,7 @@ type Config struct {
 func NewConfig() *Config {
 	return &Config{
 		// base section
-		PidFile: "/tmp/chatroom-client.pid",
+		PidFile: "/tmp/quizroom-client.pid",
 		Dir:     "./",
 		Log:     "./log.xml",
 		MaxProc: runtime.NumCPU(),
