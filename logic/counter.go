@@ -4,7 +4,7 @@ import (
 	"chatroom/libs/net/xrpc"
 	"time"
 	"chatroom/libs/proto"
-	"github.com/name5566/leaf/log"
+	log "github.com/thinkboy/log4go"
 	"encoding/json"
 	"chatroom/libs/define"
 )
@@ -65,9 +65,11 @@ func SyncCount() {
 func SyncRoomCount() {
 	timer := time.NewTicker(Conf.ROOMCOUNTERTIMER)
 
-	select {
-	case <-timer.C:
-		BroadcastRoomCount()
+	for {
+		select {
+		case <-timer.C:
+			BroadcastRoomCount()
+		}
 	}
 
 }

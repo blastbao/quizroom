@@ -234,11 +234,11 @@ func (r *RPC) Disconnect(arg *proto.DisconnArg, reply *proto.DisconnReply) (err 
 	if reply.Has, err = disconnect(uid, seq, arg.RoomId); err != nil {
 		return
 	}
-	if reply.Has {
+	/*if reply.Has {
 		if err = UserDisconnectPushRoom(uid, arg.RoomId); err != nil {
 			return
 		}
-	}
+	}*/
 	return
 }
 
