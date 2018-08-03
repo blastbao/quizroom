@@ -197,7 +197,7 @@ func PushRoom(w http.ResponseWriter, r *http.Request) {
 		res["ret"] = InternalErr
 		return
 	}
-	if err = broadcastRoomKafka(int32(rid), bodyBytes, enable, define.OP_BRAOADCAST_SMS_REPLY, 0, define.PROTO_VER); err != nil {
+	if err = broadcastRoomKafka(int32(rid), bodyBytes, enable, define.OP_BRAOADCAST_USER_HTTP_REPLY, 0, define.PROTO_VER); err != nil {
 		log.Error("broadcastRoomKafka(\"%s\",\"%s\",\"%d\") error(%s)", rid, body, enable, err)
 		res["ret"] = InternalErr
 		return

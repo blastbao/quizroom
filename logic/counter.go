@@ -7,6 +7,7 @@ import (
 	log "github.com/thinkboy/log4go"
 	"encoding/json"
 	"quizroom/libs/define"
+	"sync"
 )
 
 const (
@@ -16,6 +17,7 @@ const (
 var (
 	RoomCountMap   = make(map[int32]int32) // roomid:count
 	ServerCountMap = make(map[int32]int32) // server:count
+	Mutex          sync.RWMutex
 )
 
 func MergeCount() {
@@ -44,8 +46,10 @@ func MergeCount() {
 			}
 		}
 	}
+	Mutex.RLock()
 	RoomCountMap = roomCount
 	ServerCountMap = serverCount
+	Mutex.RUnlock()
 }
 
 /*
@@ -81,6 +85,7 @@ func BroadcastRoomCount() {
 	if len(RoomCountMap) == 0 {
 		return
 	}
+	Mutex.Lock()
 	for roomId, counter := range RoomCountMap {
 		channelId, err := getChannelIdByRoomId(roomId)
 		if err != nil {
@@ -102,4 +107,5 @@ func BroadcastRoomCount() {
 			continue
 		}
 	}
+	Mutex.Unlock()
 }
