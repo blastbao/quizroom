@@ -251,7 +251,7 @@ func (server *Server) authWebsocket(conn *websocket.Conn, p *proto.Proto) (key s
 		return
 	}
 	if key, rid, heartbeat, err = server.operator.Connect(p); err != nil {
-		authBody := proto.ReturnBody{Code: define.STATUS_AUTH_FAIL, Msg: "auth fail!"}
+		authBody := proto.ReturnBody{Code: define.STATUS_AUTH_FAIL, Msg: err.Error()}
 		vByte, err = json.Marshal(authBody)
 		if err != nil {
 			return

@@ -8,6 +8,7 @@ import (
 
 	log "github.com/thinkboy/log4go"
 	"encoding/json"
+	"errors"
 )
 
 var (
@@ -57,6 +58,12 @@ func connect(p *proto.Proto) (key string, rid int32, heartbeat time.Duration, er
 		arg   = proto.ConnArg{Token: authBody.Token, Server: Conf.ServerId, Guid: authBody.Guid, RoomId: authBody.RoomId}
 		reply = proto.ConnReply{}
 	)
+	if authBody.Guid == ""{
+		err = errors.New("Guid can not empty")
+	}
+	if authBody.Token == ""{
+		err = errors.New("token can not empty")
+	}
 	if err = logicRpcClient.Call(logicServiceConnect, &arg, &reply); err != nil {
 		log.Error("c.Call(\"%s\", \"%v\", &ret) error(%v)", logicServiceConnect, arg, err)
 		return
