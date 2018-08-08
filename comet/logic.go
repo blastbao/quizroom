@@ -59,10 +59,14 @@ func connect(p *proto.Proto) (key string, rid int32, heartbeat time.Duration, er
 		reply = proto.ConnReply{}
 	)
 	if authBody.Guid == ""{
+		log.Error("Guid can not empty p: %v", p.Body)
 		err = errors.New("Guid can not empty")
+		return
 	}
 	if authBody.Token == ""{
+		log.Error("token can not empty, guid: %v ", authBody.Guid)
 		err = errors.New("token can not empty")
+		return
 	}
 	if err = logicRpcClient.Call(logicServiceConnect, &arg, &reply); err != nil {
 		log.Error("c.Call(\"%s\", \"%v\", &ret) error(%v)", logicServiceConnect, arg, err)
