@@ -94,7 +94,7 @@ func BroadcastRoomCount() {
 		}
 		msg := proto.BroadcastRoomCounter{}
 		msg.RoomId = roomId
-		msg.Counter = counter
+		msg.Counter =  counter * 11  / 10
 		msg.ChannelId = channelId
 
 		vByte, err := json.Marshal(msg)
