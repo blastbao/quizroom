@@ -15,10 +15,16 @@ func main() {
 	runtime.GOMAXPROCS(Conf.MaxProc)
 	log.LoadConfiguration(Conf.Log)
 	defer log.Close()
+	log.Debug("start...")
 	if Conf.Type == ProtoTCP {
 		initTCP()
 	} else if Conf.Type == ProtoWebsocket {
-		initWebsocket()
+		num := Conf.Bench
+		for i := 0; i < num; i++ {
+			go initWebsocket()
+		}
+		select {}
+		log.Debug("end...")
 	} else if Conf.Type == ProtoWebsocketTLS {
 		initWebsocketTLS()
 	}

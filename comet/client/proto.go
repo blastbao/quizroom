@@ -4,6 +4,9 @@ import (
 	"encoding/json"
 
 	log "github.com/thinkboy/log4go"
+	"github.com/gorilla/websocket"
+
+
 )
 
 const (
@@ -40,3 +43,11 @@ type Proto struct {
 func (p *Proto) Print() {
 	log.Info("\n-------- proto --------\nver: %d\nop: %d\nseq: %d\nbody: %s\n", p.Ver, p.Operation, p.SeqId, string(p.Body))
 }
+
+
+func (p *Proto) ReadWebsocket(wr *websocket.Conn) (err error) {
+	err = wr.ReadJSON(p)
+	return
+}
+
+

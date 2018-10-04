@@ -6,8 +6,12 @@ import (
 
 	log "github.com/thinkboy/log4go"
 	"golang.org/x/net/websocket"
+	"sync"
+	"sync/atomic"
+	"strconv"
 )
-
+var m *sync.RWMutex
+var counter int32
 func initWebsocket() {
 	origin := "http://" + Conf.WebsocketAddr + "/sub"
 	url := "ws://" + Conf.WebsocketAddr + "/sub"
@@ -16,6 +20,9 @@ func initWebsocket() {
 		log.Error("websocket.Dial(\"%s\") error(%v)", Conf.WebsocketAddr, err)
 		return
 	}
+	defer conn.Close()
+	atomic.AddInt32(&counter, 1)
+	log.Debug("connect success.... %v", counter)
 	proto := new(Proto)
 	proto.Ver = 1
 	// auth
@@ -24,7 +31,8 @@ func initWebsocket() {
 	proto.Operation = OP_AUTH
 	seqId := int32(0)
 	proto.SeqId = seqId
-	proto.Body = []byte("{\"test\":1}")
+	//proto.Body = []byte("{\"guid\":\"Y7BQIfZfURXSICsw\",\"room_id\":110,\"token\":\"6273bea6c4372ca200c8ca0c768fcdc6\"}")
+	proto.Body = []byte("{\"guid\":\""+Conf.Guid+"\",\"room_id\":"+strconv.Itoa(Conf.RoomId)+",\"token\":\""+Conf.Token+"\"}")
 	if err = websocketWriteProto(conn, proto); err != nil {
 		log.Error("websocketWriteProto() error(%v)", err)
 		return
@@ -33,7 +41,7 @@ func initWebsocket() {
 		log.Error("websocketReadProto() error(%v)", err)
 		return
 	}
-	log.Debug("auth ok, proto: %v", proto)
+	//log.Debug("auth ok, proto: %v", proto)
 	seqId++
 	// writer
 	go func() {
@@ -82,14 +90,19 @@ func initWebsocket() {
 }
 
 func websocketReadProto(conn *websocket.Conn, p *Proto) error {
-	msg, _ := json.Marshal(p)
-	log.Debug("%s", string(msg))
-	return websocket.JSON.Receive(conn, p)
+	_, er := json.Marshal(p)
+	if er != nil{
+		log.Debug("msg: %v", er)
+	}
+
+	return nil
+	//return websocket.JSON.Receive(conn, p)
 }
 
 func websocketWriteProto(conn *websocket.Conn, p *Proto) error {
 	if p.Body == nil {
-		p.Body = []byte("{}")
+		p.Body = []byte("{sssssssssssssssssssssssssssssssssssssssssss}")
 	}
+	//log.Debug("msg: %s", string(p.Body))
 	return websocket.JSON.Send(conn, p)
 }

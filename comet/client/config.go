@@ -22,6 +22,10 @@ type Config struct {
 	PidFile string `goconf:"base:pidfile"`
 	Dir     string `goconf:"base:dir"`
 	Log     string `goconf:"base:log"`
+	Bench   int    `goconf:"base:bench"`
+	Guid    string `goconf:"base:guid"`
+	Token   string `goconf:"base:token"`
+	RoomId  int    `goconf:"base:room_id"`
 	MaxProc int    `goconf:"base:maxproc"`
 	// cert
 	CertFile string `goconf:"cert:cert.file"`
