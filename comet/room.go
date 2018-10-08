@@ -63,9 +63,14 @@ func (r *Room) Del(ch *Channel) bool {
 // Push push msg to the room, if chan full discard it.
 func (r *Room) Push(p *proto.Proto) {
 	r.rLock.RLock()
+	//log.Info("start push msg: %v", string(p.Body))
+	//num := 0
+	//t1 := time.Now()
 	for ch := r.next; ch != nil; ch = ch.Next {
 		ch.Push(p)
 	}
+	//t2 := time.Since(t1)
+	//log.Info("end push msg: %v, count: %v, speed: %v", string(p.Body), num, t2)
 	r.rLock.RUnlock()
 	return
 }

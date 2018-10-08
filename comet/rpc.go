@@ -7,6 +7,7 @@ import (
 	"net/rpc"
 
 	log "github.com/thinkboy/log4go"
+	"time"
 )
 
 func InitRPCPush(addrs []string) (err error) {
@@ -132,9 +133,13 @@ func (this *PushRPC) Broadcast(arg *proto.BoardcastArg, reply *proto.NoReply) (e
 // Broadcast broadcast msg to specified room.
 func (this *PushRPC) BroadcastRoom(arg *proto.BoardcastRoomArg, reply *proto.NoReply) (err error) {
 	var bucket *Bucket
+	log.Info("start push msg: %v", string(arg.P.Body))
+	t1 := time.Now()
 	for _, bucket = range DefaultServer.Buckets {
 		bucket.BroadcastRoom(arg)
 	}
+	t2 := time.Since(t1)
+	log.Info("end push msg: %v, speed: %v", string(arg.P.Body), t2)
 	return
 }
 
