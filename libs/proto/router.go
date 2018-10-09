@@ -38,6 +38,10 @@ type GetAllReply struct {
 	Sessions []*GetReply
 }
 
+type OnlineUserReply struct {
+	UserIds  []int64
+}
+
 type MGetArg struct {
 	UserIds []int64
 }

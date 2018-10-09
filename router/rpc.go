@@ -176,3 +176,24 @@ func (r *RouterRPC) UserCount(arg *proto.UserCountArg, reply *proto.UserCountRep
 	reply.Count = int32(r.bucket(arg.UserId).UserCount(arg.UserId))
 	return nil
 }
+
+
+
+func (r *RouterRPC) OnlineUser(arg *proto.NoArg, reply *proto.OnlineUserReply) error {
+	var (
+		i             int64
+		j             int
+		userIds       []int64
+	)
+	for i = 0; i < r.BucketIdx; i++ {
+		userIds, _, _ = r.Buckets[i].GetAll()
+		//reply.UserIds = append(reply.UserIds, userIds...)
+		for j = 0; j < len(userIds); j++ {
+			tempCount := r.bucket(userIds[j]).UserCount(userIds[j])
+			if tempCount > 0{
+				reply.UserIds = append(reply.UserIds, userIds[j])
+			}
+		}
+	}
+	return nil
+}
