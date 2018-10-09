@@ -28,6 +28,7 @@ const (
 	routerServiceMGet           = "RouterRPC.MGet"
 	routerServiceGetAll         = "RouterRPC.GetAll"
 	routerServiceGetRoomCount   = "RouterRPC.RoomCount"
+	routerServiceOnlineUser  	= "RouterRPC.OnlineUser"
 )
 
 func InitRouter(addrs map[string]string) (err error) {
@@ -280,6 +281,19 @@ func GetRoomCount(roomId int32) (count int32, err error) {
 	return
 }
 
+func OnlineUser()(users []int64, err error) {
+	var (
+		args  = proto.NoArg{}
+		reply = proto.OnlineUserReply{}
+	)
+	for _, client := range routerServiceMap {
+		if err = client.Call(routerServiceOnlineUser, &args, &reply); err != nil {
+			log.Error("client.Call(\"%s\",\"%v\") error(%v)", routerServiceOnlineUser, args, err)
+		}
+	}
+	users = reply.UserIds
+	return
+}
 /**
 获取所以用户
  */

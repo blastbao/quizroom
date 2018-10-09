@@ -63,6 +63,11 @@ func RoomCount(roomId int32) (count int32) {
 func SyncCount() {
 	for {
 		MergeCount()
+		users, err := OnlineUser()
+		if err !=nil {
+			log.Debug("OnlineUser err: %v", err)
+		}
+		log.Debug("OnlineUser users: %v, list: %v", len(users), users)
 		UserIds, _ = GetAll()
 		time.Sleep(syncCountDelay)
 	}

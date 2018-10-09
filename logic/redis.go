@@ -380,3 +380,17 @@ func BroadcastRedisInsertComment(commentId string, msgBody *proto.BroadcastBody,
 	_, err = c.Do("HMSET", "comment.id:"+commentId, "content", msgBody.Content, "parent_id", "", "time", sendTime, "user_id", msgBody.Guid)
 	return
 }
+
+func QuizLive() (channelID string, err error) {
+	c := pool.Get()
+	defer c.Close()
+	live, err1 := redis.Strings(c.Do("ZRANGE", "broadcast:quiz.living:", 0, -1))
+	if err1 != nil{
+		return "", err1
+	}
+	if len(live) > 0{
+		channelID = live[0]
+	}
+	return
+
+}
