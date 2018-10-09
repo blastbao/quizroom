@@ -18,6 +18,7 @@ var (
 	RoomCountMap   = make(map[int32]int32) // roomid:count
 	ServerCountMap = make(map[int32]int32) // server:count
 	Mutex          sync.RWMutex
+	UserIds        []int64
 )
 
 func MergeCount() {
@@ -62,6 +63,7 @@ func RoomCount(roomId int32) (count int32) {
 func SyncCount() {
 	for {
 		MergeCount()
+		UserIds, _ = GetAll()
 		time.Sleep(syncCountDelay)
 	}
 }
@@ -87,6 +89,7 @@ func BroadcastRoomCount() {
 	}
 	Mutex.Lock()
 	for roomId, counter := range RoomCountMap {
+		counter  = int32(len(UserIds))
 		channelId, err := getChannelIdByRoomId(roomId)
 		if err != nil {
 			log.Error("BroadcastRoomCount get channel_id by room_id fail room_id : %v, counter: %v  error: %v", roomId, counter, err)
@@ -94,7 +97,7 @@ func BroadcastRoomCount() {
 		}
 		msg := proto.BroadcastRoomCounter{}
 		msg.RoomId = roomId
-		msg.Counter =  counter * 11  / 10
+		msg.Counter = counter + (counter * 5 / 100)
 		msg.ChannelId = channelId
 
 		vByte, err := json.Marshal(msg)

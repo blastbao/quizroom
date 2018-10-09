@@ -101,7 +101,7 @@ func websocketReadProto(conn *websocket.Conn, p *Proto) error {
 
 func websocketWriteProto(conn *websocket.Conn, p *Proto) error {
 	if p.Body == nil {
-		p.Body = []byte("{sssssssssssssssssssssssssssssssssssssssssss}")
+		p.Body = []byte("{\"key\":\"ssssssssssssssssssssssssss\"}")
 	}
 	//log.Debug("msg: %s", string(p.Body))
 	return websocket.JSON.Send(conn, p)

@@ -279,3 +279,20 @@ func GetRoomCount(roomId int32) (count int32, err error) {
 	}
 	return
 }
+
+/**
+获取所以用户
+ */
+func GetAll() (UserIds []int64, err error) {
+	for _, client := range routerServiceMap {
+		var (
+			arg   = proto.NoArg{}
+			reply = proto.GetAllReply{}
+		)
+		if err = client.Call(routerServiceGetAll, &arg, &reply); err != nil {
+			return
+		}
+		UserIds = reply.UserIds
+	}
+	return
+}
