@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	syncCountDelay = 1 * time.Second
+	syncCountDelay = 3 * time.Second
 )
 
 var (
@@ -62,9 +62,10 @@ func RoomCount(roomId int32) (count int32) {
 
 func SyncCount() {
 	for {
-		MergeCount()
+		//MergeCount()
 		//UserIds, _ = GetAll()
-		UserIds, _ = OnlineUser()
+		//UserIds, _ = OnlineUser()
+
 		time.Sleep(syncCountDelay)
 	}
 }
@@ -90,12 +91,18 @@ func BroadcastRoomCount() {
 	}
 	Mutex.Lock()
 	for roomId, counter := range RoomCountMap {
-		counter  = int32(len(UserIds))
+		counter = int32(len(UserIds))
 		channelId, err := getChannelIdByRoomId(roomId)
 		if err != nil {
 			log.Error("BroadcastRoomCount get channel_id by room_id fail room_id : %v, counter: %v  error: %v", roomId, counter, err)
 			continue
 		}
+		count, err := GetJoinUserCount(channelId)
+		if err != nil {
+			log.Error("BroadcastRoomCount GetJoinUserCount by room_id fail room_id : %v, counter: %v  error: %v", roomId, counter, err)
+			continue
+		}
+		counter = int32(count)
 		msg := proto.BroadcastRoomCounter{}
 		msg.RoomId = roomId
 		msg.Counter = counter + (counter * 5 / 100)

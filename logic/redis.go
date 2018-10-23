@@ -323,8 +323,8 @@ func BroadcastInfoAudienceCount(channelId string) (audienceCount int64, err erro
 		log.Error("BroadcastInfoAudienceCount HGET error channel id %v, live_highest_audience:%v", channelId, live_highest_audience)
 		return
 	}
-	if audienceCount > live_highest_audience{
-		if r, err1 := c.Do("HSET", "broadcast:info:id:"+channelId, "live_highest_audience", live_highest_audience); err1 != nil{
+	if audienceCount > live_highest_audience {
+		if r, err1 := c.Do("HSET", "broadcast:info:id:"+channelId, "live_highest_audience", live_highest_audience); err1 != nil {
 			log.Error("HSET broadcast:info:id:%v is error :%v, result: %v", channelId, err1, r)
 		}
 	}
@@ -357,13 +357,12 @@ type BroadcastAudience struct {
 	Level    int    `redis:"level" json:"level"`
 }
 
-func BroadcastRedisWriteComment(feedId string, commentId string, sendTime int64)(err error)  {
+func BroadcastRedisWriteComment(feedId string, commentId string, sendTime int64) (err error) {
 	c := pool.Get()
 	defer c.Close()
-	_, err = c.Do("ZADD", "feed.comment.id:"+feedId, sendTime,commentId)
+	_, err = c.Do("ZADD", "feed.comment.id:"+feedId, sendTime, commentId)
 	return
 }
-
 
 func BroadcastRedisTimeLineCommentIncrease(feedId string) (err error) {
 	c := pool.Get()
@@ -374,7 +373,7 @@ func BroadcastRedisTimeLineCommentIncrease(feedId string) (err error) {
 	return
 }
 
-func BroadcastRedisInsertComment(commentId string, msgBody *proto.BroadcastBody, sendTime int64)(err error)  {
+func BroadcastRedisInsertComment(commentId string, msgBody *proto.BroadcastBody, sendTime int64) (err error) {
 	c := pool.Get()
 	defer c.Close()
 	_, err = c.Do("HMSET", "comment.id:"+commentId, "content", msgBody.Content, "parent_id", "", "time", sendTime, "user_id", msgBody.Guid)
@@ -385,12 +384,23 @@ func QuizLive() (channelID string, err error) {
 	c := pool.Get()
 	defer c.Close()
 	live, err1 := redis.Strings(c.Do("ZRANGE", "broadcast:quiz.living:", 0, -1))
-	if err1 != nil{
+	if err1 != nil {
 		return "", err1
 	}
-	if len(live) > 0{
+	if len(live) > 0 {
 		channelID = live[0]
 	}
 	return
 
+}
+
+func GetJoinUserCount(Guid string) (count int, err error) {
+	c := pool.Get()
+	defer c.Close()
+	count, err = redis.Int(c.Do("ZCARD", "broadcast:channel:people:"+Guid))
+	if err != nil {
+		log.Error("GetJoinUserCount redis ZCARD error: %v", err)
+		return
+	}
+	return
 }
