@@ -62,7 +62,7 @@ func RoomCount(roomId int32) (count int32) {
 
 func SyncCount() {
 	for {
-		//MergeCount()
+		MergeCount()
 		//UserIds, _ = GetAll()
 		//UserIds, _ = OnlineUser()
 
