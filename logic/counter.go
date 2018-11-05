@@ -102,10 +102,9 @@ func BroadcastRoomCount() {
 			log.Error("BroadcastRoomCount GetJoinUserCount by room_id fail room_id : %v, counter: %v  error: %v", roomId, counter, err)
 			continue
 		}
-		counter = int32(count)
 		msg := proto.BroadcastRoomCounter{}
 		msg.RoomId = roomId
-		msg.Counter = counter + (counter * 5 / 100)
+		msg.Counter = int32(count)
 		msg.ChannelId = channelId
 
 		vByte, err := json.Marshal(msg)
