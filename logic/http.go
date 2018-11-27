@@ -11,6 +11,7 @@ import (
 
 	log "github.com/thinkboy/log4go"
 	"quizroom/libs/define"
+	"os"
 )
 
 func InitHTTP() (err error) {
@@ -197,6 +198,27 @@ func PushRoom(w http.ResponseWriter, r *http.Request) {
 		res["ret"] = InternalErr
 		return
 	}
+	timestamp := time.Now().Format("15-04-05")
+	dir := "./publish/" + ridStr + "/"
+	filename := dir + "send.log-" + timestamp
+	if err := os.MkdirAll(dir, 0775); err == nil{
+		fd, err := os.Create(filename)
+		defer fd.Close()
+		if err == nil {
+			//记录接收者
+			fd.WriteString(body + "\r\n")
+			UserIds, _ = OnlineUser()
+			for _, k := range UserIds {
+				fd.WriteString(strconv.FormatInt(k, 10) + "\r\n")
+			}
+			log.Debug("filename: %v, send count: %v",filename, len(UserIds))
+		} else {
+			log.Error("file create fail: %v", filename)
+		}
+	}else {
+		log.Error("dir create fail: %v", dir)
+	}
+
 	if err = broadcastRoomKafka(int32(rid), bodyBytes, enable, define.OP_BRAOADCAST_USER_HTTP_REPLY, 0, define.PROTO_VER); err != nil {
 		log.Error("broadcastRoomKafka(\"%s\",\"%s\",\"%d\") error(%s)", rid, body, enable, err)
 		res["ret"] = InternalErr
